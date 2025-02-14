@@ -1,0 +1,11 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10dvh;
+
+  & .footer-text {
+    margin: 0;
+    padding: 0;
+  } 
+}
