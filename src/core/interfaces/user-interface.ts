@@ -1,6 +1,7 @@
 export interface User {
     userInformation: UserInformationInterface;
     token: string | undefined;
+    rememberMe: boolean;
 }
 
 export interface UserInformationInterface {

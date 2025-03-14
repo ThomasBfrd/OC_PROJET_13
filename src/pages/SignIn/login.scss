@@ -1,8 +1,8 @@
-.sign-in {
-  height: 82dvh;
+.login {
+  //height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .sign-in-button {
@@ -22,7 +22,6 @@
     background-color: white;
     width: 300px;
     margin: 0 auto;
-    margin-top: 3rem;
     padding: 2rem;
   }
   
