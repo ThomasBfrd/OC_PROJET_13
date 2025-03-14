@@ -1,11 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {User} from "./interfaces/user-interface.ts";
-import {getUserInfos, getUserToken} from "./services/Api.tsx";
-
-export interface UserLogin {
-    email: string;
-    password: string;
-}
+import {editUserInfos, getUserInfos, getUserToken} from "./services/Api.tsx";
+import {UserLogin} from "./interfaces/user-login-interface.ts";
 
 const initialState: User = {
     userInformation: {
@@ -14,7 +10,8 @@ const initialState: User = {
         firstName: undefined,
         lastName: undefined,
     },
-    token: undefined
+    token: undefined,
+    rememberMe: false,
 }
 
 export const fetchTokenUser = createAsyncThunk(
@@ -26,6 +23,10 @@ export const fetchTokenUser = createAsyncThunk(
 
             if (response.status === 200) {
                 console.log('Response UserToken : ', response);
+                if (userLoginBody.rememberMe) {
+                    const rememberUser: string = userLoginBody.email;
+                    localStorage.setItem('rememberUser', rememberUser);
+                }
                 return response;
             }
         } catch (error: any) {
@@ -51,13 +52,36 @@ export const fetchInfosUser = createAsyncThunk(
     }
 )
 
+export interface EditUser {
+    userToken: string,
+    firstName: string,
+    lastName: string
+}
+
+export const fetchEditUserInfos = createAsyncThunk(
+    "user/fetchEditUserInfos",
+    async (query: EditUser, {rejectWithValue}) => {
+        try {
+            console.log('LoginBody : ', query.userToken);
+            const response: any = await editUserInfos(query);
+
+            if (response.status === 200) {
+                console.log('Response userInfos : ', response);
+                return response;
+            }
+        } catch (error: any) {
+            return rejectWithValue(error.message || "Erreur inconnue");
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        tokenState: (state, action) => {
-            console.log('action du token a update : ', action)
-            return state.token = action.payload;
+        logout: () => {
+            console.log('logout...')
+            return initialState;
         }
     },
     extraReducers: (builder) => {
@@ -95,6 +119,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { tokenState } = userSlice.actions;
+export const { logout } = userSlice.actions;
 
 export default userSlice.reducer;
