@@ -15,7 +15,7 @@ body {
 
 .main {
   flex: 1;
-  height: 83dvh;
+  height: calc(100dvh - 10dvh - 7dvh);
   position: relative;
 }
 
@@ -41,12 +41,12 @@ body {
   .account {
     flex-direction: row;
   }
+
   .account-content-wrapper.cta {
     flex: 0;
   }
+
   .transaction-button {
     width: 200px;
   }
 }
-
-/*# sourceMappingURL=App.css.map */

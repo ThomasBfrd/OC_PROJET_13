@@ -1,14 +1,15 @@
-import { FC } from 'react'
+import {FC} from 'react'
 import './footer.scss';
 
 const Footer: FC = () => {
-  return (
-    <>
+
+    const copyrightDate = new Date().getFullYear();
+
+    return (
         <footer className="footer">
-          <p className="footer-text">Copyright 2020 Argent Bank</p>
+            <p className="footer-text">Copyright {copyrightDate} Argent Bank</p>
         </footer>
-    </>
-  )
+    )
 }
 
 export default Footer;

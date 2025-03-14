@@ -1,75 +1,62 @@
-import {FC, useEffect} from 'react'
+import {FC} from 'react'
 import './home-page.scss';
-import {useSelector} from "react-redux";
-import {userInfos} from "../../core/selectors.ts";
+import HeroSubtitle from "../../components/hero-subtitle/hero-subtitle.tsx";
+import HeroCard from "../../components/hero-card/hero-card.tsx";
+
+export interface HeroCard {
+    src: string;
+    alt: string;
+    title: string;
+    description: string;
+}
 
 const HomePage: FC = () => {
-    const userInformation = useSelector(userInfos);
+    const subtitles: Array<string> = ['No fees.', 'No minimum deposit.', 'High interest rates.']
+    const heroCards: Array<HeroCard> = [
+        {
+            src: 'icon-chat',
+            alt: 'Chat Icon',
+            title: 'You are our #1 priority',
+            description: 'Need to talk to a representative? You can get in touch through our 24/7 chat or through a phone call in less than 5 minutes.'
+        },
+        {
+            src: 'icon-money',
+            alt: 'Money Icon',
+            title: 'More savings means higher rates',
+            description: 'The more you save with us, the higher your interest rate will be!'
+        },
+        {
+            src: 'icon-security',
+            alt: 'Security Icon',
+            title: 'Security you can trust',
+            description: 'We use top of the line encryption to make sure your data and money is always safe.'
+        },
 
-    useEffect(() => {
-
-        if (userInformation.id) {
-            console.log('--- Données user récupérées ---')
-            console.log('User : ', userInformation);
-
-            const setUserInfosToLocalStorage = {
-                id: userInformation.id,
-                email: userInformation.email,
-                firstName: userInformation.firstName,
-                lastName: userInformation.lastName
-            }
-
-            localStorage.setItem('userInfo', JSON.stringify(setUserInfosToLocalStorage));
-        }
-
-
-    }, [userInformation])
+    ]
 
     return (
         <>
-            <main className='home'>
+            <main className="main home">
                 <div className="hero">
                     <section className="hero-content">
                         <h2 className="sr-only">Promoted Content</h2>
-                        <p className="subtitle">No fees.</p>
-                        <p className="subtitle">No minimum deposit.</p>
-                        <p className="subtitle">High interest rates.</p>
+                        {subtitles.length > 0 && subtitles.map((subtitle: string, id: number) => (
+                            <HeroSubtitle subtitle={subtitle} key={id}/>
+                        ))}
                         <p className="text">Open a savings account with Argent Bank today!</p>
                     </section>
                 </div>
                 <section className="features">
                     <h2 className="sr-only">Features</h2>
-                    <div className="feature-item">
-                        <img src="/public/img/icon-chat.png" alt="Chat Icon" className="feature-icon"/>
-                        <h3 className="feature-item-title">You are our #1 priority</h3>
-                        <p>
-                            Need to talk to a representative? You can get in touch through our
-                            24/7 chat or through a phone call in less than 5 minutes.
-                        </p>
-                    </div>
-                    <div className="feature-item">
-                        <img
-                            src="/public/img/icon-money.png"
-                            alt="Chat Icon"
-                            className="feature-icon"
+                    {heroCards.length > 0 && heroCards.map((heroCard: HeroCard, id: number) => (
+                        <HeroCard
+                            key={id}
+                            src={heroCard.src}
+                            alt={heroCard.alt}
+                            title={heroCard.title}
+                            description={heroCard.description}
                         />
-                        <h3 className="feature-item-title">More savings means higher rates</h3>
-                        <p>
-                            The more you save with us, the higher your interest rate will be!
-                        </p>
-                    </div>
-                    <div className="feature-item">
-                        <img
-                            src="/public/img/icon-security.png"
-                            alt="Chat Icon"
-                            className="feature-icon"
-                        />
-                        <h3 className="feature-item-title">Security you can trust</h3>
-                        <p>
-                            We use top of the line encryption to make sure your data and money
-                            is always safe.
-                        </p>
-                    </div>
+                    ))}
                 </section>
             </main>
         </>
