@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {User} from "./interfaces/user-interface.ts";
-import {editUserInfos, getUserInfos, getUserToken} from "./services/Api.tsx";
+import {updateUserInfos, fetchTokenUser, fetchUserInfos} from "./services/Api.tsx";
 import {UserLogin} from "./interfaces/user-login-interface.ts";
+import {EditUserInformations} from "./interfaces/user-edit-interface.ts";
 
 const initialState: User = {
     userInformation: {
@@ -14,12 +15,12 @@ const initialState: User = {
     rememberMe: false,
 }
 
-export const fetchTokenUser = createAsyncThunk(
+export const getUserToken = createAsyncThunk(
     "user/fetchTokenUser",
     async (userLoginBody: UserLogin, {rejectWithValue})=> {
         try {
             console.log('LoginBody : ', userLoginBody);
-            const response: any = await getUserToken(userLoginBody);
+            const response: any = await fetchTokenUser(userLoginBody);
 
             if (response.status === 200) {
                 console.log('Response UserToken : ', response);
@@ -35,12 +36,12 @@ export const fetchTokenUser = createAsyncThunk(
     }
 )
 
-export const fetchInfosUser = createAsyncThunk(
-    "user/fetchInfosUser",
+export const getUserInfos = createAsyncThunk(
+    "user/getUserInfos",
     async (userToken: string, {rejectWithValue})=> {
         try {
             console.log('LoginBody : ', userToken);
-            const response: any = await getUserInfos(userToken);
+            const response: any = await fetchUserInfos(userToken);
 
             if (response.status === 200) {
                 console.log('Response userInfos : ', response);
@@ -52,21 +53,15 @@ export const fetchInfosUser = createAsyncThunk(
     }
 )
 
-export interface EditUser {
-    userToken: string,
-    firstName: string,
-    lastName: string
-}
-
-export const fetchEditUserInfos = createAsyncThunk(
-    "user/fetchEditUserInfos",
-    async (query: EditUser, {rejectWithValue}) => {
+export const setUserInfos = createAsyncThunk(
+    "user/setUserInfos",
+    async (query: EditUserInformations, {rejectWithValue}) => {
         try {
             console.log('LoginBody : ', query.userToken);
-            const response: any = await editUserInfos(query);
+            const response: any = await updateUserInfos(query);
 
             if (response.status === 200) {
-                console.log('Response userInfos : ', response);
+                console.log('Response UserInfos : ', response);
                 return response;
             }
         } catch (error: any) {
@@ -86,23 +81,25 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchTokenUser.pending, (_, action) => {
+            // GetTokenUser
+            .addCase(getUserToken.pending, (_, action) => {
                 console.log('Connexion en cours...', action.payload);
             })
-            .addCase(fetchTokenUser.fulfilled, (state, action) => {
+            .addCase(getUserToken.fulfilled, (state, action) => {
                 console.log('Connexion réussie', action.payload);
                 state.token = action.payload.body.token
 
                 console.log('Contenu du state mis à jour : ', state.token)
             })
-            .addCase(fetchTokenUser.rejected, (_, action) => {
-                console.log("Une erreur est survenue... ", action.payload);
+            .addCase(getUserToken.rejected, (_, action) => {
+                console.log("Une erreur est survenue... ", action);
             })
 
-            .addCase(fetchInfosUser.pending, (_, action) => {
+            // GetInfosUser
+            .addCase(getUserInfos.pending, (_, action) => {
                 console.log('Récupération des infos en cours...', action.payload);
             })
-            .addCase(fetchInfosUser.fulfilled, (state, action) => {
+            .addCase(getUserInfos.fulfilled, (state, action) => {
                 console.log('Récupération des infos réussie', action.payload);
                 state.userInformation = {
                     email: action.payload.body.email,
@@ -113,7 +110,27 @@ const userSlice = createSlice({
 
                 console.log('Contenu du state mis à jour pour userInfos: ', state.userInformation)
             })
-            .addCase(fetchInfosUser.rejected, (_, action) => {
+            .addCase(getUserInfos.rejected, (_, action) => {
+                console.log("Une erreur est survenue... ", action.payload);
+            })
+
+            // SetInfosUser
+            .addCase(setUserInfos.pending, (_, action) => {
+                console.log("Attente d'update du profile :", action.payload);
+            })
+
+            .addCase(setUserInfos.fulfilled, (state, action) => {
+                console.log('Update des infos user dans le slicer');
+                state.userInformation = {
+                    ...state.userInformation,
+                    firstName: action.payload.body.firstName,
+                    lastName: action.payload.body.lastName,
+                };
+
+                console.log('Contenu correctement mis à jour : ', state.userInformation);
+            })
+
+            .addCase(setUserInfos.rejected, (_, action) => {
                 console.log("Une erreur est survenue... ", action.payload);
             })
     }
