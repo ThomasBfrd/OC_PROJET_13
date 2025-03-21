@@ -1,17 +1,13 @@
 import {FC, FormEvent, useActionState, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../core/store.ts";
-import {fetchEditUserInfos, fetchInfosUser} from "../../core/userSlicer.ts";
 import {userInfos, userToken} from "../../core/selectors.ts";
 import "./edit-user.scss";
-import {UserEditInformations} from "../../core/interfaces/user-edit-informations-interface.ts";
+import {getUserInfos, setUserInfos} from "../../core/userSlicer.ts";
+import {EditUserInformations} from "../../core/interfaces/user-edit-interface.ts";
+import {EditAction} from "../../shared/interfaces/edit-user-interface.ts";
 
-interface EditUserProps {
-    handleOpen: (value: boolean) => void;
-    handleConfirm: (value: boolean) => void;
-}
-
-const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
+const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
     const [state, formAction, isPending] = useActionState(validForm, {
         success: false,
         message: "",
@@ -28,14 +24,14 @@ const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
     useEffect(() => {
         if (state.success && token && isUpdating) {
             console.log('profile modifié');
-            dispatch(fetchInfosUser(token));
+            dispatch(getUserInfos(token));
             setIsUpdating(false);
             handleOpen(false);
         }
     }, [state.success, token, isUpdating, user, confirmModal, handleOpen, validationError, handleConfirm]);
 
     function validForm(_: any, data: any) {
-        const body: UserEditInformations = {
+        const body: EditUserInformations = {
             userToken: token,
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
@@ -59,7 +55,7 @@ const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
             }
         }
 
-        dispatch(fetchEditUserInfos(body));
+        dispatch(setUserInfos(body));
         setIsUpdating(true);
         setConfirmModal(false);
 
@@ -100,16 +96,17 @@ const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
         }
     }
 
-    function handleCancelConfirm() {
-        setConfirmModal(false);
-    }
-
     function handleClick() {
         handleOpen(false);
     }
 
     function handleConfirmModal() {
         handleConfirm(true);
+    }
+
+    function closeModal() {
+        setConfirmModal(false);
+        handleOpen(false);
     }
 
     return (
@@ -119,7 +116,7 @@ const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
                 <div className="confirm-modal-content">
                 <h3>Are you sure to update your informations ?</h3>
                     <div className="edit-buttons confirm-buttons">
-                        <button className="confirm-edit-button cancel" type="button" onClick={handleCancelConfirm}>No</button>
+                        <button className="confirm-edit-button cancel" type="button" onClick={closeModal}>No</button>
                         <button className="confirm-edit-button" type="button" onClick={handleEditUserInfos}>Yes</button>
                     </div>
                 </div>
@@ -139,7 +136,7 @@ const EditUser: FC<EditUserProps> = ({handleOpen, handleConfirm}) => {
                 <div className="edit-buttons">
                 <button className="edit-profile-button cancel" type="button" onClick={handleClick}>
                     Cancel
-                </button>f
+                </button>
                 <button className="edit-profile-button" type="submit" disabled={isPending}>
                     {isPending ? 'Saving...' : 'Save'}
                 </button>

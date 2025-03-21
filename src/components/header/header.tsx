@@ -42,26 +42,25 @@ const Header: FC = () => {
                     </Link>
                 </div>
                 <div className="main-nav-items">
-                    {userInfo?.id ? (
+                    {userInfo?.id && token ? (
                         <NavLink to={`/user/${userInfo?.id}`}
-                                 className={isUserProfileMatch ?
-                                     'main-nav-item active' : 'main-nav-item'}>
+                                 className="main-nav-item">
                                 <i className="fa fa-user-circle"></i>
-                                <span>{userInfo?.firstName}</span>
+                                <span className={isUserProfileMatch && token ? "nav-a active" : "nav-a"}>{userInfo?.firstName}</span>
                         </NavLink>
                     ) : null}
 
-                    {userInfo?.id ? (
+                    {userInfo?.id && token ? (
                         <div className="main-nav-item" onClick={() => onLogOut()}>
                             <i className="fa fa-sign-out"></i>
-                            <span>Sign Out</span>
+                            <span className="nav-a">Sign Out</span>
                         </div>
 
                     ) : (
                         <Link to={'/login'}>
                             <div className="main-nav-item">
-                                <i className="fa fa-sign-in"></i>
-                                <span>Sign In</span>
+                                <i className="fa fa-user-circle"></i>
+                                <span className="nav-a">Sign In</span>
                             </div>
                         </Link>
                     )}

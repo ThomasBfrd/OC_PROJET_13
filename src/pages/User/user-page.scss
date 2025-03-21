@@ -1,5 +1,5 @@
 .user-page {
-  height: calc(100dvh - 10dvh - 7dvh);
+  height: calc(100dvh - 7dvh - 7dvh);
 }
 
 .user-page-header {
@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .edit-button {
@@ -19,26 +19,20 @@
   padding: 10px;
 }
 
-.transaction-button {
-  display: block;
-  width: 200px;
-  padding: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-}
-
 .overlay {
   position: absolute;
-  //top: 7dvh;
   left: 0;
+  top: 0;
   height: 100%;
   width: 100%;
-  //filter: blur(10px);
   backdrop-filter: blur(10px);
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 640px) {
+  .user-page {
+    height: 100%;
+    padding: 30px 0;
+  }
 }

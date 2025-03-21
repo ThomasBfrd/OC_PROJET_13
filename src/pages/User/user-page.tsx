@@ -5,6 +5,8 @@ import {userInfos, userToken} from "../../core/selectors.ts";
 import {useNavigate} from "react-router-dom";
 import ArgentBank from "../../components/argent-bank/argent-bank.tsx";
 import EditUser from "../../components/edit-user/edit-user.tsx";
+import {AmountAccount} from "../../shared/interfaces/amount-account-interface.ts";
+import {amountAccount} from "../../shared/constants/amountAccount.ts";
 
 const UserPage: FC = () => {
     const token = useSelector(userToken);
@@ -30,7 +32,7 @@ const UserPage: FC = () => {
             <div className="overlay"></div>
             ) : null}
             <div className="user-page-header">
-                <h1>Welcome back<br/>{userInfo.firstName} {userInfo.lastName}!</h1>
+                <h1>Welcome back<br/>{userInfo.firstName} {userInfo.lastName} !</h1>
                 {!isEditing ? (
                 <button className="edit-button"
                         onClick={() => setIsEditing(true)}>
@@ -40,13 +42,12 @@ const UserPage: FC = () => {
                 <EditUser handleOpen={handleParent} handleConfirm={handleParent} />
                 )}
             </div>
-            <h2 className="sr-only">Accounts</h2>
-            <ArgentBank title={'Argent Bank Checking (x8349)'} amount={'2,082.79'}
-                        description={'Available Balance'}/>
-            <ArgentBank title={'Argent Bank Savings (x6712)'} amount={'10,928.42'}
-                        description={'Available Balance'}/>
-            <ArgentBank title={'Argent Bank Credit Card (x8349)'} amount={'184.30'}
-                        description={'Current Balance'}/>
+            <div className='userpage-content'>
+                <h2 className="sr-only">Accounts</h2>
+                {amountAccount.map((account: AmountAccount) => (
+                    <ArgentBank title={account.title} amount={account.amount} description={account.description}></ArgentBank>
+                ))}
+            </div>
         </main>
     )
 }

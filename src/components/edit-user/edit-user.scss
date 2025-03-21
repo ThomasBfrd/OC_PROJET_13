@@ -34,7 +34,6 @@
   justify-content: center;
   align-items: center;
   top: 35%;
-  //left: 0;
   margin: 0 auto;
   background-color: white;
   padding: 20px;
@@ -61,5 +60,15 @@
       background-color: #00bc77;
       color: #fff;
     }
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .edit-user {
+    flex-direction: column;
+  }
+
+  .confirm-modal {
+    width: 50%;
   }
 }

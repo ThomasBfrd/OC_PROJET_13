@@ -1,6 +1,6 @@
 const HeroSubtitle = ({subtitle}: {subtitle: string}) => {
     return (
-        <p className="subtitle">{subtitle}</p>
+        <span className="subtitle">{subtitle}</span>
     );
 };
 

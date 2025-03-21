@@ -1,7 +1,7 @@
-import {EditUser} from "../userSlicer.ts";
 import {UserLogin} from "../interfaces/user-login-interface.ts";
+import {EditUserInformations} from "../interfaces/user-edit-interface.ts";
 
-export const getUserToken = async (userLogin: UserLogin) => {
+export const fetchTokenUser = async (userLogin: UserLogin) => {
     try {
         const data = await Promise.resolve(
             fetch('http://localhost:3001/api/v1/user/login', {
@@ -25,7 +25,7 @@ export const getUserToken = async (userLogin: UserLogin) => {
     }
 }
 
-export const getUserInfos = async (userToken: string) => {
+export const fetchUserInfos = async (userToken: string) => {
     try {
         const data = await Promise.resolve(
         fetch('http://localhost:3001/api/v1/user/profile', {
@@ -50,7 +50,7 @@ export const getUserInfos = async (userToken: string) => {
     }
 }
 
-export const editUserInfos = async (query: EditUser) => {
+export const updateUserInfos = async (query: EditUserInformations) => {
     try {
         const body = {
             firstName: query.firstName,
