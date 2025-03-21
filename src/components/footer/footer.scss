@@ -1,0 +1,12 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 7dvh;
+  border-top: 2px solid #ccc;
+
+  & .footer-text {
+    margin: 0;
+    padding: 0;
+  } 
+}
