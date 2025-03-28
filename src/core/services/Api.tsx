@@ -1,5 +1,5 @@
 import {UserLogin} from "../interfaces/user-login-interface.ts";
-import {EditUserInformations} from "../interfaces/user-edit-interface.ts";
+import {EditUserInformation} from "../interfaces/user-edit-interface.ts";
 
 export const fetchTokenUser = async (userLogin: UserLogin) => {
     try {
@@ -50,7 +50,7 @@ export const fetchUserInfos = async (userToken: string) => {
     }
 }
 
-export const updateUserInfos = async (query: EditUserInformations) => {
+export const updateUserInfos = async (query: EditUserInformation) => {
     try {
         const body = {
             firstName: query.firstName,

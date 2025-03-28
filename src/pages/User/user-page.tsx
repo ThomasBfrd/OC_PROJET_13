@@ -44,8 +44,8 @@ const UserPage: FC = () => {
             </div>
             <div className='userpage-content'>
                 <h2 className="sr-only">Accounts</h2>
-                {amountAccount.map((account: AmountAccount) => (
-                    <ArgentBank title={account.title} amount={account.amount} description={account.description}></ArgentBank>
+                {amountAccount.map((account: AmountAccount, index: number) => (
+                    <ArgentBank key={index} title={account.title} amount={account.amount} description={account.description}></ArgentBank>
                 ))}
             </div>
         </main>
