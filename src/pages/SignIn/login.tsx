@@ -8,6 +8,8 @@ import {userInfos, userToken} from "../../core/selectors.ts";
 import {UserLogin} from "../../core/interfaces/user-login-interface.ts";
 import {UserInformationInterface} from "../../core/interfaces/user-interface.ts";
 import {SubmitResult} from "../../shared/interfaces/submit-result-interface.ts";
+import {checkEmail} from "../../shared/helpers/checkInput.helper.ts";
+import {createStateMessage} from "../../shared/helpers/create-state-message.helper.ts";
 
 const Login: FC = () => {
     const [state, submitAction, isPending] = useActionState<SubmitResult | null, FormData>(submitHandler, null);
@@ -39,36 +41,32 @@ const Login: FC = () => {
 
     async function submitHandler(_previousState: SubmitResult | null, formData: FormData): Promise<SubmitResult> {
         const email: string = formData.get('email') as string;
+        const password: string = formData.get('password') as string;
         const isValidEmail: boolean = email.includes('@');
 
         if (!isValidEmail) {
-            return {
-                success: false,
-                message: "Can't connect",
-                error: 'Not a valid email',
-            };
+            return createStateMessage(false, "The email must contain '@'", "Not a valid email");
+        }
+
+        if (isValidEmail && !checkEmail(email)) {
+            console.log('email : ', email)
+            return createStateMessage(false, "The email must not contain special characters.", "Error");
         }
 
         const userForm: UserLogin = {
-            email: formData.get('email') as string,
-            password: formData.get('password') as string,
+            email: email,
+            password: password,
             rememberMe: formData.get('rememberMe') === 'on',
         };
 
         try {
             await dispatch(getUserToken(userForm)).unwrap();
 
-            return {
-                success: true,
-                message: "Succeeded authentication, you will be redirected to the homepage...",
-                error: null,
-            };
+            return createStateMessage(true, "Succeeded authentication, you will be redirected to the homepage...", null);
+
         } catch (error) {
-            return {
-                success: false,
-                message: "Can't connect",
-                error: 'Wrong email or password, please retry',
-            };
+
+            return createStateMessage(false, "Can't connect", 'Wrong email or password, please retry');
         }
     }
 

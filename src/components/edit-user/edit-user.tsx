@@ -4,8 +4,10 @@ import {AppDispatch} from "../../core/store.ts";
 import {userInfos, userToken} from "../../core/selectors.ts";
 import "./edit-user.scss";
 import {getUserInfos, setUserInfos} from "../../core/userSlicer.ts";
-import {EditUserInformations} from "../../core/interfaces/user-edit-interface.ts";
+import {EditUserInformation} from "../../core/interfaces/user-edit-interface.ts";
 import {EditAction} from "../../shared/interfaces/edit-user-interface.ts";
+import { checkInput } from "../../shared/helpers/checkInput.helper.ts";
+import {createStateMessage} from "../../shared/helpers/create-state-message.helper.ts";
 
 const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
     const [state, formAction, isPending] = useActionState(validForm, {
@@ -23,15 +25,19 @@ const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
 
     useEffect(() => {
         if (state.success && token && isUpdating) {
-            console.log('profile modifié');
             dispatch(getUserInfos(token));
             setIsUpdating(false);
             handleOpen(false);
         }
     }, [state.success, token, isUpdating, user, confirmModal, handleOpen, validationError, handleConfirm]);
 
+    function checkLength(value: string): boolean {
+        return !(!value || value.trim().length < 2 || value.trim().length > 31);
+    }
+
     function validForm(_: any, data: any) {
-        const body: EditUserInformations = {
+
+        const body: EditUserInformation = {
             userToken: token,
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
@@ -40,30 +46,20 @@ const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
         new Promise(success => setTimeout(success, 2000)).then();
 
         if (!body) {
-            return {
-                success: false,
-                message: "Impossible de modifier le profile",
-                error: "Error"
-            }
+
+            return createStateMessage(false, "Cannot modify the profile, please check your changes", "Error");
         }
 
         if (!(body.firstName.length > 0) || !(body.lastName.length > 0)) {
-            return {
-                success: false,
-                message: "Invalid changes",
-                error: "Error"
-            }
+
+            return createStateMessage(false, "Invalid changes", "Error");
         }
 
         dispatch(setUserInfos(body));
         setIsUpdating(true);
         setConfirmModal(false);
 
-        return {
-            success: true,
-            message: "Profil modifié avec succès",
-            error: null,
-        }
+        return createStateMessage(true, "Profile updated successfully", null);
     }
 
     function handleConfirmEditUserInfos(event: FormEvent<HTMLFormElement>) {
@@ -73,13 +69,13 @@ const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
             const firstName: string | null = formData.get('firstName') as string;
             const lastName: string | null = formData.get('lastName') as string;
 
-            if (!firstName || firstName.trim().length < 2 && firstName.trim().length > 30) {
-                setValidationError("The firstname must constain at least 2 caracters.");
+            if (!checkInput(firstName) || !checkInput(lastName)) {
+                setValidationError("The firstname or lastname must not contain special characters.");
                 return;
             }
 
-            if (!lastName || lastName.trim().length < 2 && lastName.trim().length > 30) {
-                setValidationError("The lastname must constain at least 2 caracters.");
+            if (!checkLength(firstName) || !checkLength(lastName)) {
+                setValidationError("The firstname or lastname must have between 2 and 29 characters.");
                 return;
             }
         }
