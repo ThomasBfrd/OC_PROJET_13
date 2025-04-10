@@ -1,0 +1,73 @@
+.edit-user {
+  display: flex;
+  gap: 30px;
+}
+
+.edit-profile-button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 30px;
+}
+
+.cancel {
+  background-color: #222222 !important;
+  border-color: #222222 !important;
+  color: #fff !important;
+}
+
+.confirm-modal {
+  position: absolute;
+  width: 30%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 35%;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  color: black;
+  text-wrap: balance;
+}
+.confirm-modal .confirm-buttons {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.confirm-modal .confirm-buttons .confirm-edit-button {
+  display: block;
+  width: 70px;
+  padding: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+}
+
+@media screen and (max-width: 580px) {
+  .edit-user {
+    flex-direction: column;
+  }
+  .confirm-modal {
+    width: 50%;
+  }
+}
+
+/*# sourceMappingURL=edit-user.css.map */
