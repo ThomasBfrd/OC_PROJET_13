@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import './index.css'
-import App from './core/App'
+import App from './App.tsx'
 import {store} from "./core/store.ts";
 import {authService} from "./core/services/auth-service.ts";
 
