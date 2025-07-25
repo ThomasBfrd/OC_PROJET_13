@@ -1,13 +1,14 @@
 import './App.scss'
-import HomePage from '../pages/Home/home-page'
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
-import Login from '../pages/SignIn/login.tsx'
-import UserPage from '../pages/User/user-page'
-import Header from '../components/header/header'
-import Footer from '../components/footer/footer'
+import Header from './features/components/header/header.tsx'
+import Footer from './features/components/footer/footer.tsx'
+import {lazy} from "react";
+
+const HomePage = lazy(() => import('./features/pages/Home/home-page.tsx'));
+const Login = lazy(() => import('./features/pages/SignIn/login.tsx'));
+const UserPage = lazy(() => import('./features/pages/User/user-page.tsx'));
 
 function App() {
-
   return (
     <>
     <BrowserRouter>
