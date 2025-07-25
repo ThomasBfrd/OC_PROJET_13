@@ -1,16 +1,16 @@
 import {ChangeEvent, FC, useActionState, useEffect, useState} from 'react';
 import './login.scss';
 import {useDispatch, useSelector} from "react-redux";
-import {getUserInfos, getUserToken} from "../../core/userSlicer.ts";
+import {getUserInfos, getUserToken} from "../../../core/userSlicer.ts";
 import {NavigateFunction, useNavigate} from "react-router-dom";
-import {AppDispatch} from "../../core/store.ts";
-import {userInfos} from "../../core/selectors.ts";
-import {UserLogin} from "../../core/interfaces/user-login-interface.ts";
-import {UserInformationInterface} from "../../core/interfaces/user-interface.ts";
-import {SubmitResult} from "../../shared/interfaces/submit-result-interface.ts";
-import {checkEmail} from "../../shared/helpers/checkInput.helper.ts";
-import {createStateMessage} from "../../shared/helpers/create-state-message.helper.ts";
-import {authService} from "../../core/services/auth-service.ts";
+import {AppDispatch} from "../../../core/store.ts";
+import {userInfos} from "../../../core/selectors.ts";
+import {UserLogin} from "../../../core/interfaces/user-login-interface.ts";
+import {UserInformationInterface} from "../../../core/interfaces/user-interface.ts";
+import {SubmitResult} from "../../../shared/interfaces/submit-result-interface.ts";
+import {checkEmail} from "../../../shared/helpers/checkInput.helper.ts";
+import {createStateMessage} from "../../../shared/helpers/create-state-message.helper.ts";
+import {authService} from "../../../core/services/auth-service.ts";
 
 const Login: FC = () => {
     const [state, submitAction, isPending] = useActionState<SubmitResult | null, FormData>(submitHandler, null);

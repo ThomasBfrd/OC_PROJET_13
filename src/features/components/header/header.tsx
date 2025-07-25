@@ -1,12 +1,12 @@
 import {FC, useEffect, useState} from 'react'
 import './header.scss';
 import {Link, NavLink, PathMatch, useMatch} from "react-router-dom";
-import {UserInformationInterface} from "../../core/interfaces/user-interface.ts";
+import {UserInformationInterface} from "../../../core/interfaces/user-interface.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {userInfos} from "../../core/selectors.ts";
-import {AppDispatch} from "../../core/store.ts";
-import {logout} from "../../core/userSlicer.ts";
-import {authService} from "../../core/services/auth-service.ts";
+import {userInfos} from "../../../core/selectors.ts";
+import {AppDispatch} from "../../../core/store.ts";
+import {logout} from "../../../core/userSlicer.ts";
+import {authService} from "../../../core/services/auth-service.ts";
 
 const Header: FC = () => {
     const [userInfo, setUserInfo] = useState<UserInformationInterface | undefined>(undefined);

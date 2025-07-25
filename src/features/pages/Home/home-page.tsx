@@ -1,10 +1,10 @@
 import {FC} from 'react'
 import './home-page.scss';
 import HeroSubtitle from "../../components/hero-subtitle/hero-subtitle.tsx";
-import {HeroCardInformation} from "../../shared/interfaces/hero-card-interface.ts";
+import {HeroCardInformation} from "../../../shared/interfaces/hero-card-interface.ts";
 import HeroCard from "../../components/hero-card/hero-card.tsx";
-import {subtitles} from "../../shared/constants/subtitles.ts";
-import {heroCards} from "../../shared/constants/hero-cards.ts";
+import {subtitles} from "../../../shared/constants/subtitles.ts";
+import {heroCards} from "../../../shared/constants/hero-cards.ts";
 
 const HomePage: FC = () => {
     return (
@@ -18,6 +18,7 @@ const HomePage: FC = () => {
                         ))}
                         <p className="text">Open a savings account with Argent Bank today!</p>
                     </section>
+                    <img className="hero-img" src="/public/img/bank-tree.webp" alt="picture-home" loading="lazy"/>
                 </div>
                 <section className="features">
                     <h2 className="sr-only">Features</h2>
