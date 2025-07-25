@@ -1,7 +1,7 @@
 export interface User {
     userInformation: UserInformationInterface;
-    token: string | undefined;
     rememberMe: boolean;
+    isLogged: boolean;
 }
 
 export interface UserInformationInterface {

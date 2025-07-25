@@ -3,6 +3,7 @@ import {User} from "./interfaces/user-interface.ts";
 import {updateUserInfos, fetchTokenUser, fetchUserInfos} from "./services/Api.tsx";
 import {UserLogin} from "./interfaces/user-login-interface.ts";
 import {EditUserInformation} from "./interfaces/user-edit-interface.ts";
+import {authService} from "./services/auth-service.ts";
 
 const initialState: User = {
     userInformation: {
@@ -11,8 +12,8 @@ const initialState: User = {
         firstName: undefined,
         lastName: undefined,
     },
-    token: undefined,
     rememberMe: false,
+    isLogged: false,
 }
 
 export const getUserToken = createAsyncThunk(
@@ -26,7 +27,8 @@ export const getUserToken = createAsyncThunk(
                     const rememberUser: string = userLoginBody.email;
                     localStorage.setItem('rememberUser', rememberUser);
                 }
-                return response;
+                authService.setToken(response.body.token)
+                return true;
             }
         } catch (error: any) {
             return rejectWithValue(error.message || "Unknown error");
@@ -71,7 +73,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         logout: () => {
-
+            authService.setToken(null);
             return initialState;
         }
     },
@@ -80,7 +82,7 @@ const userSlice = createSlice({
             // GetTokenUser
             .addCase(getUserToken.pending, () => {})
             .addCase(getUserToken.fulfilled, (state, action) => {
-                state.token = action.payload.body.token
+                state.isLogged = action.payload!;
             })
             .addCase(getUserToken.rejected, () => {})
 

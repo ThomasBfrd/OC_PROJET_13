@@ -3,16 +3,17 @@ import './header.scss';
 import {Link, NavLink, PathMatch, useMatch} from "react-router-dom";
 import {UserInformationInterface} from "../../core/interfaces/user-interface.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {userInfos, userToken} from "../../core/selectors.ts";
+import {userInfos} from "../../core/selectors.ts";
 import {AppDispatch} from "../../core/store.ts";
 import {logout} from "../../core/userSlicer.ts";
+import {authService} from "../../core/services/auth-service.ts";
 
 const Header: FC = () => {
     const [userInfo, setUserInfo] = useState<UserInformationInterface | undefined>(undefined);
     const userInfoStored: UserInformationInterface = useSelector(userInfos);
     const isUserProfileMatch: PathMatch<string> | null = useMatch(`/user/:id`);
     const dispatch: AppDispatch = useDispatch();
-    const token = useSelector(userToken)
+    const token: string | null = authService.getToken();
 
     useEffect(() => {
 

@@ -4,6 +4,10 @@ import { Provider } from 'react-redux'
 import './index.css'
 import App from './core/App'
 import {store} from "./core/store.ts";
+import {authService} from "./core/services/auth-service.ts";
+
+// @ts-ignore
+const auth = authService;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
