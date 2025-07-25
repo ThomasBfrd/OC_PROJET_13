@@ -1,15 +1,16 @@
 import {FC, useEffect, useState} from 'react'
 import './user-page.scss';
 import {useSelector} from "react-redux";
-import {userInfos, userToken} from "../../core/selectors.ts";
+import {userInfos} from "../../core/selectors.ts";
 import {useNavigate} from "react-router-dom";
 import ArgentBank from "../../components/argent-bank/argent-bank.tsx";
 import EditUser from "../../components/edit-user/edit-user.tsx";
 import {AmountAccount} from "../../shared/interfaces/amount-account-interface.ts";
 import {amountAccount} from "../../shared/constants/amountAccount.ts";
+import {authService} from "../../core/services/auth-service.ts";
 
 const UserPage: FC = () => {
-    const token = useSelector(userToken);
+    const token: string | null = authService.getToken();
     const userInfo = useSelector(userInfos);
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false);
