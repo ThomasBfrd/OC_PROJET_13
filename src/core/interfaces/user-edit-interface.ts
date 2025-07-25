@@ -1,5 +1,5 @@
 export interface EditUserInformation {
     firstName: string;
     lastName: string;
-    userToken: string;
+    userToken: string | null;
 }

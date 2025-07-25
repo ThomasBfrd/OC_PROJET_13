@@ -1,13 +1,14 @@
 import {FC, FormEvent, useActionState, useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch} from "../../core/store.ts";
-import {userInfos, userToken} from "../../core/selectors.ts";
+import {userInfos} from "../../core/selectors.ts";
 import "./edit-user.scss";
 import {getUserInfos, setUserInfos} from "../../core/userSlicer.ts";
 import {EditUserInformation} from "../../core/interfaces/user-edit-interface.ts";
 import {EditAction} from "../../shared/interfaces/edit-user-interface.ts";
 import { checkInput } from "../../shared/helpers/checkInput.helper.ts";
 import {createStateMessage} from "../../shared/helpers/create-state-message.helper.ts";
+import {authService} from "../../core/services/auth-service.ts";
 
 const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
     const [state, formAction, isPending] = useActionState(validForm, {
@@ -16,8 +17,8 @@ const EditUser: FC<EditAction> = ({handleOpen, handleConfirm}) => {
         error: null,
     });
     const dispatch: AppDispatch = useDispatch();
-    const token = useSelector(userToken);
-    const user = useSelector(userInfos);
+    const token: string | null = authService.getToken();
+    const user: any = useSelector(userInfos);
     const [isUpdating, setIsUpdating] = useState(false);
     const [confirmModal, setConfirmModal] = useState<boolean>(false)
     const [validationError, setValidationError] = useState<string>("");
