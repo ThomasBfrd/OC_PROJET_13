@@ -5,7 +5,7 @@ import Footer from './features/components/footer/footer.tsx'
 import {lazy} from "react";
 
 const HomePage = lazy(() => import('./features/pages/Home/home-page.tsx'));
-const Login = lazy(() => import('./features/pages/SignIn/login.tsx'));
+const Login = lazy(() => import('./features/pages/SignIn/login-page.tsx'));
 const UserPage = lazy(() => import('./features/pages/User/user-page.tsx'));
 
 function App() {

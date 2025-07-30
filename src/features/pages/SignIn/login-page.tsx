@@ -1,5 +1,5 @@
 import {ChangeEvent, FC, useActionState, useEffect, useState} from 'react';
-import './login.scss';
+import './login-page.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {getUserInfos, getUserToken} from "../../../core/userSlicer.ts";
 import {NavigateFunction, useNavigate} from "react-router-dom";
@@ -12,7 +12,7 @@ import {checkEmail} from "../../../shared/helpers/checkInput.helper.ts";
 import {createStateMessage} from "../../../shared/helpers/create-state-message.helper.ts";
 import {authService} from "../../../core/services/auth-service.ts";
 
-const Login: FC = () => {
+const LoginPage: FC = () => {
     const [state, submitAction, isPending] = useActionState<SubmitResult | null, FormData>(submitHandler, null);
     const dispatch: AppDispatch = useDispatch();
     const navigate: NavigateFunction = useNavigate();
@@ -57,7 +57,7 @@ const Login: FC = () => {
         const userForm: UserLogin = {
             email: email,
             password: password,
-            rememberMe: formData.get('rememberMe') === 'on',
+            rememberMe: rememberCheck,
         };
 
         try {
@@ -116,4 +116,4 @@ const Login: FC = () => {
     );
 };
 
-export default Login;
+export default LoginPage;
