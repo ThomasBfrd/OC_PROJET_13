@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {User} from "./interfaces/user-interface.ts";
-import {updateUserInfos, fetchTokenUser, fetchUserInfos} from "./services/Api.tsx";
+import {updateUserInfos, fetchTokenUser, fetchUserInfos} from "./services/api-service.ts";
 import {UserLogin} from "./interfaces/user-login-interface.ts";
 import {EditUserInformation} from "./interfaces/user-edit-interface.ts";
 import {authService} from "./services/auth-service.ts";
